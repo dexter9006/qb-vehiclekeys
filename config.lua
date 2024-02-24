@@ -14,11 +14,11 @@ Config.LockToggleDist = 8.0
 
 -- NPC Vehicle Lock States
 Config.LockNPCDrivingCars = true -- Lock state for NPC cars being driven by NPCs [true = locked, false = unlocked]
-Config.LockNPCParkedCars = true -- Lock state for NPC parked cars [true = locked, false = unlocked]
-Config.UseKeyfob = false -- you can set this true if you dont need ui
+Config.LockNPCParkedCars = false -- Lock state for NPC parked cars [true = locked, false = unlocked]
+Config.UseKeyfob = true -- you can set this true if you dont need ui
 -- Lockpick Settings
-Config.RemoveLockpickNormal = 0.5 -- Chance to remove lockpick on fail
-Config.RemoveLockpickAdvanced = 0.2 -- Chance to remove advanced lockpick on fail
+Config.RemoveLockpickNormal = 0.25 -- Chance to remove lockpick on fail
+Config.RemoveLockpickAdvanced = 0.1 -- Chance to remove advanced lockpick on fail
 -- Carjack Settings
 Config.CarJackEnable = true -- True allows for the ability to car jack peds.
 Config.CarjackingTime = 7500 -- How long it takes to carjack
@@ -45,10 +45,11 @@ Config.maxHotwireTime = 40000 --  Maximum hotwire time in ms
 -- Police Alert Settings
 Config.AlertCooldown = 10000 -- 10 seconds
 Config.PoliceAlertChance = 0.75 -- Chance of alerting police during the day
-Config.PoliceNightAlertChance = 0.50 -- Chance of alerting police at night (times:01-06)
+Config.PoliceNightAlertChance = 0.25 -- Chance of alerting police at night (times:01-06)
 
 -- Job Settings
 Config.SharedKeys = { -- Share keys amongst employees. Employees can lock/unlock any job-listed vehicle
+	--[[
     ['police'] = { -- Job name
         requireOnduty = false,
         vehicles = {
@@ -63,6 +64,7 @@ Config.SharedKeys = { -- Share keys amongst employees. Employees can lock/unlock
             'towtruck',
 	}
     }
+	--]]
 }
 
 -- These vehicles cannot be jacked
@@ -103,4 +105,6 @@ Config.NoCarjackWeapons = {
     "WEAPON_Ball",
     "WEAPON_Snowball",
     "WEAPON_SmokeGrenade",
+    "WEAPON_STUNGUN",
+    "WEAPON_BEANBAGSHOTGUN"
 }
