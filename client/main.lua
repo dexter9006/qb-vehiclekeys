@@ -314,6 +314,9 @@ function openmenu()
     SendNUIMessage({ casemenue = 'open' })
     SetNuiFocus(true, true)
 end
+
+-- Vitto for no fuel shutdown (cdn-fuel)
+local NotifyCooldown = false
 function ToggleEngine(veh)
     if veh then
         local EngineOn = GetIsVehicleEngineRunning(veh)
@@ -322,7 +325,20 @@ function ToggleEngine(veh)
                 if EngineOn then
                     SetVehicleEngineOn(veh, false, false, true)
                 else
-                    SetVehicleEngineOn(veh, true, true, true)
+                    if exports['cdn-fuel']:GetFuel(veh) ~= 0 then
+                        SetVehicleEngineOn(veh, true, false, true)
+                    else
+                        if not NotifyCooldown then
+                            RequestAmbientAudioBank("DLC_PILOT_ENGINE_FAILURE_SOUNDS", 0)
+                            PlaySoundFromEntity(l_2613, "Landing_Tone", PlayerPedId(), "DLC_PILOT_ENGINE_FAILURE_SOUNDS", 0, 0)
+                            NotifyCooldown = true
+                            QBCore.Functions.Notify('Véhicule à plat..', 'error')
+                            Wait(1500)
+                            StopSound(l_2613)
+                            Wait(3500)
+                            NotifyCooldown = false
+                        end
+                    end                
                 end
             end
         end
@@ -717,7 +733,7 @@ function AttemptPoliceAlert(type)
             chance = Config.PoliceNightAlertChance
         end
         if math.random() <= chance then
-           TriggerServerEvent('police:server:policeAlert', Lang:t("info.palert") .. type)
+           exports['ps-dispatch']:CarJacking(vehicle)
         end
         AlertSend = true
         SetTimeout(Config.AlertCooldown, function()
